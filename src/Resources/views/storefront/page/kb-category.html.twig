@@ -1,10 +1,7 @@
 {% sw_extends '@Storefront/storefront/base.html.twig' %}
 
 {% block base_head %}
-    {% sw_include '@Storefront/storefront/layout/meta.html.twig' with {
-        metaTitle: page.category.metaTitle ?: page.category.name,
-        metaDescription: page.category.metaDescription ?: page.category.description|striptags|u.truncate(160, '...')
-    } %}
+    {{ parent() }}
     {% sw_include '@DesklyKnowledgeBase/storefront/page/kb-jsonld.html.twig' %}
 {% endblock %}
 

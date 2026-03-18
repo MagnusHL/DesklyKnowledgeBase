@@ -18,12 +18,18 @@
             <argument type="service" id="deskly_kb_category.repository"/>
             <argument type="service" id="deskly_kb_article.repository"/>
             <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <service id="Deskly\KnowledgeBase\Api\KbPublicController">
             <argument type="service" id="deskly_kb_category.repository"/>
             <argument type="service" id="deskly_kb_article.repository"/>
             <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <!-- Storefront Controller -->

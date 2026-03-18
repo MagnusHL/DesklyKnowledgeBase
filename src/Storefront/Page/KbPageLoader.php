@@ -133,8 +133,10 @@ class KbPageLoader
         $page = $this->genericPageLoader->load($request, $context);
 
         $kbPage = new KbPage();
-        $kbPage->setHeader($page->getHeader());
-        $kbPage->setFooter($page->getFooter());
+
+        if ($page->getMetaInformation() !== null) {
+            $kbPage->setMetaInformation($page->getMetaInformation());
+        }
 
         return $kbPage;
     }
