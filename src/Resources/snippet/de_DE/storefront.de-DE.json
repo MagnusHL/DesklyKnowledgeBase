@@ -1,0 +1,20 @@
+{
+    "deskly-kb": {
+        "overview": {
+            "title": "Hilfe & Wissensdatenbank",
+            "search": "Suchen...",
+            "articlesCount": "%count% Artikel",
+            "noCategories": "Noch keine Kategorien vorhanden."
+        },
+        "category": {
+            "backToOverview": "Zurück zur Übersicht",
+            "noArticles": "Noch keine Artikel in dieser Kategorie."
+        },
+        "article": {
+            "backToCategory": "Zurück zu %category%"
+        },
+        "breadcrumb": {
+            "help": "Hilfe"
+        }
+    }
+}

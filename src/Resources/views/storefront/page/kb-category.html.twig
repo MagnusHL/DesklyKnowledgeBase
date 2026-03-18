@@ -1,0 +1,89 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_head %}
+    {% sw_include '@Storefront/storefront/layout/meta.html.twig' with {
+        metaTitle: page.category.metaTitle ?: page.category.name,
+        metaDescription: page.category.metaDescription ?: page.category.description|striptags|u.truncate(160, '...')
+    } %}
+    {% sw_include '@DesklyKnowledgeBase/storefront/page/kb-jsonld.html.twig' %}
+{% endblock %}
+
+{% block base_content %}
+    <div class="cms-page deskly-kb-category-page">
+        <div class="container">
+
+            {# Breadcrumb #}
+            <nav aria-label="breadcrumb" class="deskly-kb-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.home.page') }}" title="{{ "general.homeLink"|trans|striptags }}">
+                            <span class="icon icon-home"></span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.kb.overview') }}">
+                            {{ "deskly-kb.breadcrumb.help"|trans }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ page.category.name }}
+                    </li>
+                </ol>
+            </nav>
+
+            {# Kategorie-Header #}
+            <header class="deskly-kb-category-header">
+                <h1>{{ page.category.name }}</h1>
+
+                {% if page.category.description %}
+                    <div class="deskly-kb-category-description lead">
+                        {{ page.category.description|raw }}
+                    </div>
+                {% endif %}
+            </header>
+
+            {# Zurück-Link #}
+            <div class="deskly-kb-back-link mb-3">
+                <a href="{{ path('frontend.kb.overview') }}" class="btn btn-outline-secondary btn-sm">
+                    &larr; {{ "deskly-kb.category.backToOverview"|trans }}
+                </a>
+            </div>
+
+            {# Artikel-Liste #}
+            {% if page.articles is not empty %}
+                <section class="deskly-kb-article-list">
+                    {% for article in page.articles %}
+                        <article class="deskly-kb-article-list-item card mb-3">
+                            <a href="{{ path('frontend.kb.article', { categorySlug: page.category.slug, articleSlug: article.slug }) }}"
+                               class="deskly-kb-article-list-link"
+                               title="{{ article.title }}">
+                                <div class="card-body">
+                                    <h2 class="card-title h5">{{ article.title }}</h2>
+
+                                    {% if article.shortText %}
+                                        <p class="card-text text-muted">
+                                            {{ article.shortText|striptags|u.truncate(200, '...') }}
+                                        </p>
+                                    {% endif %}
+
+                                    {% if article.tags is not empty %}
+                                        <div class="deskly-kb-article-tags">
+                                            {% for tag in article.tags %}
+                                                <span class="badge bg-light text-dark">{{ tag }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <div class="alert alert-info">
+                    {{ "deskly-kb.category.noArticles"|trans }}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

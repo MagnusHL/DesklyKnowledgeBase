@@ -1,0 +1,59 @@
+{% block element_deskly_faq_block %}
+    {% set articles = element.data %}
+    {% set config = element.config %}
+
+    <div class="cms-element-deskly-faq-block">
+        {% if articles is not empty %}
+            <div class="deskly-faq-block__list" itemscope itemtype="https://schema.org/FAQPage">
+                {% for article in articles %}
+                    <div class="deskly-faq-block__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <details class="deskly-faq-block__details">
+                            <summary class="deskly-faq-block__summary">
+                                <h3 class="deskly-faq-block__title" itemprop="name">
+                                    {{ article.title }}
+                                </h3>
+                                <span class="deskly-faq-block__icon" aria-hidden="true"></span>
+                            </summary>
+                            <div class="deskly-faq-block__answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                                <div class="deskly-faq-block__answer-text" itemprop="text">
+                                    {{ article.shortText|raw }}
+                                </div>
+                                {% if article.category %}
+                                    <a href="{{ path('frontend.kb.article', { categorySlug: article.category.slug, articleSlug: article.slug }) }}"
+                                       class="deskly-faq-block__link btn btn-link btn-sm"
+                                       title="{{ article.title }}">
+                                        Mehr erfahren
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </details>
+                    </div>
+                {% endfor %}
+            </div>
+
+            {# JSON-LD FAQPage Schema #}
+            <script type="application/ld+json">
+                {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [
+                        {% for article in articles %}
+                            {
+                                "@type": "Question",
+                                "name": {{ article.title|json_encode|raw }},
+                                "acceptedAnswer": {
+                                    "@type": "Answer",
+                                    "text": {{ article.shortText|striptags|json_encode|raw }}
+                                }
+                            }{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    ]
+                }
+            </script>
+        {% else %}
+            <div class="deskly-faq-block__empty">
+                <p>Keine FAQ-Eintr&auml;ge vorhanden.</p>
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

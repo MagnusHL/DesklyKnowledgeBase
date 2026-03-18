@@ -1,0 +1,126 @@
+{# JSON-LD Structured Data fuer KB-Seiten #}
+{# Wird vom JsonLdSubscriber mit desklyJsonLd befuellt und kann per sw_include eingebunden werden #}
+
+{% if desklyJsonLd is defined and desklyJsonLd is not empty %}
+    {% for schema in desklyJsonLd %}
+        <script type="application/ld+json">{{ schema|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+    {% endfor %}
+{% elseif page is defined %}
+    {# Fallback: Direkte Generierung ohne Subscriber-Variable #}
+
+    {# Artikel-Seite #}
+    {% if page.article is defined and page.article is not null %}
+        {% set article = page.article %}
+        {% set category = page.category is defined ? page.category : article.category %}
+        {% set shopName = context.salesChannel.name ?? 'Hinzke' %}
+        {% set baseUrl = app.request.schemeAndHttpHost %}
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "Article",
+            "headline": article.metaTitle ?? article.title,
+            "description": article.metaDescription ?? article.shortText,
+            "datePublished": article.createdAt ? article.createdAt|date('c') : '',
+            "dateModified": (article.updatedAt ?? article.createdAt) ? (article.updatedAt ?? article.createdAt)|date('c') : '',
+            "publisher": {
+                "@type": "Organization",
+                "name": shopName
+            },
+            "mainEntityOfPage": {
+                "@type": "WebPage",
+                "@id": baseUrl ~ '/hilfe/' ~ (category ? category.slug : '') ~ '/' ~ article.slug
+            }
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+
+        {# BreadcrumbList #}
+        {% set breadcrumbItems = [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Hilfe",
+                "item": baseUrl ~ '/hilfe'
+            }
+        ] %}
+
+        {% if category %}
+            {% set breadcrumbItems = breadcrumbItems|merge([{
+                "@type": "ListItem",
+                "position": 2,
+                "name": category.name,
+                "item": baseUrl ~ '/hilfe/' ~ category.slug
+            }]) %}
+            {% set breadcrumbItems = breadcrumbItems|merge([{
+                "@type": "ListItem",
+                "position": 3,
+                "name": article.title
+            }]) %}
+        {% else %}
+            {% set breadcrumbItems = breadcrumbItems|merge([{
+                "@type": "ListItem",
+                "position": 2,
+                "name": article.title
+            }]) %}
+        {% endif %}
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": breadcrumbItems
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+
+    {# Kategorie-Seite #}
+    {% elseif page.category is defined and page.category is not null and (page.article is not defined or page.article is null) %}
+        {% set category = page.category %}
+        {% set baseUrl = app.request.schemeAndHttpHost %}
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": category.metaTitle ?? category.name,
+            "description": category.metaDescription ?? category.description ?? '',
+            "url": baseUrl ~ '/hilfe/' ~ category.slug
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Hilfe",
+                    "item": baseUrl ~ '/hilfe'
+                },
+                {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": category.name
+                }
+            ]
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+
+    {# Uebersicht-Seite #}
+    {% elseif page.categories is defined %}
+        {% set baseUrl = app.request.schemeAndHttpHost %}
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "Hilfe & Support",
+            "description": "Hilfe-Center mit Anleitungen, FAQs und Support-Artikeln.",
+            "url": baseUrl ~ '/hilfe'
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+
+        <script type="application/ld+json">{{ {
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+                {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Hilfe"
+                }
+            ]
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+    {% endif %}
+{% endif %}

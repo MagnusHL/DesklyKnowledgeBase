@@ -1,0 +1,15 @@
+<div class="sw-cms-el-deskly-faq-block">
+    <div class="sw-cms-el-deskly-faq-block__placeholder"
+         :style="{ padding: '20px', background: '#f9f9f9', border: '2px dashed #d1d1d1', borderRadius: '4px', textAlign: 'center' }">
+        <h3 style="margin: 0 0 8px 0; color: #52667a;">FAQ Block</h3>
+        <p style="margin: 0; color: #758ca3; font-size: 13px;">
+            <template v-if="tags">Tags: {{ tags }}</template>
+            <template v-if="tags && categoryId"> | </template>
+            <template v-if="categoryId">Kategorie: {{ categoryId }}</template>
+            <template v-if="!tags && !categoryId">Keine Filter gesetzt</template>
+        </p>
+        <p style="margin: 4px 0 0 0; color: #758ca3; font-size: 12px;">
+            Max. {{ maxItems }} Eintr&auml;ge
+        </p>
+    </div>
+</div>

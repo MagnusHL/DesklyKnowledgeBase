@@ -1,0 +1,34 @@
+<div class="sw-cms-el-config-deskly-faq-block">
+    <sw-container columns="1fr" gap="16px">
+
+        <sw-text-field
+            v-model:value="element.config.tags.value"
+            label="Tags (kommasepariert)"
+            placeholder="faq, versand, zahlung"
+            helpText="Nur Artikel mit mindestens einem dieser Tags werden angezeigt. Leer = alle Artikel."
+            @update:value="onElementUpdate(element)">
+        </sw-text-field>
+
+        <sw-single-select
+            v-model:value="element.config.categoryId.value"
+            label="Kategorie"
+            placeholder="Alle Kategorien"
+            :options="categories"
+            labelProperty="name"
+            valueProperty="id"
+            showClearableButton
+            @update:value="onElementUpdate(element)">
+        </sw-single-select>
+
+        <sw-number-field
+            v-model:value="element.config.maxItems.value"
+            label="Maximale Anzahl"
+            :min="1"
+            :max="100"
+            :step="1"
+            helpText="Maximale Anzahl der angezeigten FAQ-Eintr&auml;ge."
+            @update:value="onElementUpdate(element)">
+        </sw-number-field>
+
+    </sw-container>
+</div>

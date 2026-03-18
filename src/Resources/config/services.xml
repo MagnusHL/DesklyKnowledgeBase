@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Entity Definitions -->
+        <service id="Deskly\KnowledgeBase\Content\KbCategory\KbCategoryDefinition">
+            <tag name="shopware.entity.definition" entity="deskly_kb_category"/>
+        </service>
+
+        <service id="Deskly\KnowledgeBase\Content\KbArticle\KbArticleDefinition">
+            <tag name="shopware.entity.definition" entity="deskly_kb_article"/>
+        </service>
+
+        <!-- API Controllers -->
+        <service id="Deskly\KnowledgeBase\Api\KbAdminController">
+            <argument type="service" id="deskly_kb_category.repository"/>
+            <argument type="service" id="deskly_kb_article.repository"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <service id="Deskly\KnowledgeBase\Api\KbPublicController">
+            <argument type="service" id="deskly_kb_category.repository"/>
+            <argument type="service" id="deskly_kb_article.repository"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+
+        <!-- Storefront Controller -->
+        <service id="Deskly\KnowledgeBase\Storefront\Controller\KbPageController">
+            <argument type="service" id="Deskly\KnowledgeBase\Storefront\Page\KbPageLoader"/>
+            <tag name="controller.service_arguments"/>
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
+        </service>
+
+        <service id="Deskly\KnowledgeBase\Storefront\Page\KbPageLoader">
+            <argument type="service" id="deskly_kb_category.repository"/>
+            <argument type="service" id="deskly_kb_article.repository"/>
+            <argument type="service" id="Shopware\Storefront\Page\GenericPageLoader"/>
+        </service>
+
+        <!-- CMS Element Resolver -->
+        <service id="Deskly\KnowledgeBase\Framework\Cms\FaqBlockCmsElementResolver">
+            <argument type="service" id="deskly_kb_article.repository"/>
+            <tag name="shopware.cms.data_resolver"/>
+        </service>
+
+        <!-- SEO URL Route -->
+        <service id="Deskly\KnowledgeBase\Core\Seo\KbArticleSeoUrlRoute">
+            <argument type="service" id="Deskly\KnowledgeBase\Content\KbArticle\KbArticleDefinition"/>
+            <tag name="shopware.seo_url.route"/>
+        </service>
+
+        <!-- Sitemap Provider -->
+        <service id="Deskly\KnowledgeBase\Core\Content\Sitemap\Provider\KbArticleUrlProvider">
+            <argument type="service" id="deskly_kb_article.repository"/>
+            <tag name="shopware.sitemap_url_provider"/>
+        </service>
+
+        <!-- JSON-LD Subscriber -->
+        <service id="Deskly\KnowledgeBase\Subscriber\JsonLdSubscriber">
+            <tag name="kernel.event_subscriber"/>
+        </service>
+    </services>
+</container>

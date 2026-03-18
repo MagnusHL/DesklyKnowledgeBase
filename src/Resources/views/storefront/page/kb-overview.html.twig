@@ -1,0 +1,81 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_head %}
+    {% sw_include '@Storefront/storefront/layout/meta.html.twig' %}
+    {% sw_include '@DesklyKnowledgeBase/storefront/page/kb-jsonld.html.twig' %}
+{% endblock %}
+
+{% block base_content %}
+    <div class="cms-page deskly-kb-overview">
+        <div class="container">
+
+            {# Breadcrumb #}
+            <nav aria-label="breadcrumb" class="deskly-kb-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.home.page') }}" title="{{ "general.homeLink"|trans|striptags }}">
+                            <span class="icon icon-home"></span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ "deskly-kb.breadcrumb.help"|trans }}
+                    </li>
+                </ol>
+            </nav>
+
+            {# Seitentitel #}
+            <h1 class="deskly-kb-overview-title">
+                {{ "deskly-kb.overview.title"|trans }}
+            </h1>
+
+            {# Suchfeld #}
+            <div class="deskly-kb-search">
+                <form action="{{ path('frontend.kb.overview') }}" method="GET" class="deskly-kb-search-form">
+                    <div class="input-group">
+                        <input type="text"
+                               name="q"
+                               class="form-control"
+                               placeholder="{{ "deskly-kb.overview.search"|trans }}"
+                               value="{{ app.request.query.get('q', '') }}"
+                               aria-label="{{ "deskly-kb.overview.search"|trans }}">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="icon icon-search"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            {# Kategorie-Grid #}
+            {% if page.categories is not empty %}
+                <section class="deskly-kb-category-grid">
+                    {% for category in page.categories %}
+                        <article class="deskly-kb-category-card card">
+                            <a href="{{ path('frontend.kb.category', { categorySlug: category.slug }) }}"
+                               class="deskly-kb-category-card-link"
+                               title="{{ category.name }}">
+                                <div class="card-body">
+                                    <h2 class="card-title h5">{{ category.name }}</h2>
+
+                                    {% if category.description %}
+                                        <p class="card-text text-muted">
+                                            {{ category.description|striptags|u.truncate(150, '...') }}
+                                        </p>
+                                    {% endif %}
+
+                                    <span class="badge bg-secondary deskly-kb-article-count">
+                                        {{ "deskly-kb.overview.articlesCount"|trans({ '%count%': category.articles ? category.articles|length : 0 }) }}
+                                    </span>
+                                </div>
+                            </a>
+                        </article>
+                    {% endfor %}
+                </section>
+            {% else %}
+                <div class="alert alert-info">
+                    {{ "deskly-kb.overview.noCategories"|trans }}
+                </div>
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

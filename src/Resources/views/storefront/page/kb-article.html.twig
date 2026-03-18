@@ -1,0 +1,76 @@
+{% sw_extends '@Storefront/storefront/base.html.twig' %}
+
+{% block base_head %}
+    {% sw_include '@Storefront/storefront/layout/meta.html.twig' with {
+        metaTitle: page.article.metaTitle ?: page.article.title,
+        metaDescription: page.article.metaDescription ?: page.article.shortText|striptags|u.truncate(160, '...')
+    } %}
+    {% sw_include '@DesklyKnowledgeBase/storefront/page/kb-jsonld.html.twig' %}
+{% endblock %}
+
+{% block base_content %}
+    <div class="cms-page deskly-kb-article-page">
+        <div class="container">
+
+            {# Breadcrumb #}
+            <nav aria-label="breadcrumb" class="deskly-kb-breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.home.page') }}" title="{{ "general.homeLink"|trans|striptags }}">
+                            <span class="icon icon-home"></span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.kb.overview') }}">
+                            {{ "deskly-kb.breadcrumb.help"|trans }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="{{ path('frontend.kb.category', { categorySlug: page.category.slug }) }}">
+                            {{ page.category.name }}
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{ page.article.title }}
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="row">
+
+                {# Artikel-Content #}
+                <div class="col-lg-9">
+                    <article class="deskly-kb-article">
+                        <header class="deskly-kb-article-header">
+                            <h1>{{ page.article.title }}</h1>
+
+                            {% if page.article.tags is not empty %}
+                                <div class="deskly-kb-article-tags mb-3">
+                                    {% for tag in page.article.tags %}
+                                        <span class="badge bg-light text-dark">{{ tag }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </header>
+
+                        <div class="deskly-kb-article-content">
+                            {{ page.article.content|raw }}
+                        </div>
+                    </article>
+                </div>
+
+                {# Sidebar #}
+                <aside class="col-lg-3">
+                    <div class="deskly-kb-sidebar">
+                        <a href="{{ path('frontend.kb.category', { categorySlug: page.category.slug }) }}"
+                           class="btn btn-outline-secondary btn-sm w-100">
+                            &larr; {{ "deskly-kb.article.backToCategory"|trans({ '%category%': page.category.name }) }}
+                        </a>
+                    </div>
+                </aside>
+
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

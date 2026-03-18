@@ -1,0 +1,37 @@
+{
+    "name": "deskly/knowledge-base",
+    "description": "API-first Knowledge Base & Help Center for Shopware 6 - SEO-optimized articles, FAQ CMS elements, and automation-ready API.",
+    "version": "1.0.0",
+    "type": "shopware-platform-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Deskly",
+            "homepage": "https://github.com/MagnusHL/DesklyKnowledgeBase"
+        }
+    ],
+    "require": {
+        "shopware/core": "~6.7.0",
+        "shopware/storefront": "~6.7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Deskly\\KnowledgeBase\\": "src/"
+        }
+    },
+    "extra": {
+        "shopware-plugin-class": "Deskly\\KnowledgeBase\\DesklyKnowledgeBase",
+        "label": {
+            "de-DE": "Deskly Knowledge Base",
+            "en-GB": "Deskly Knowledge Base"
+        },
+        "description": {
+            "de-DE": "API-first Wissensdatenbank mit SEO-optimierten Hilfe-Seiten, FAQ-CMS-Element und Lese-API fuer Chatbots.",
+            "en-GB": "API-first Knowledge Base with SEO-optimized help pages, FAQ CMS element, and read API for chatbots."
+        },
+        "manufacturerLink": {
+            "de-DE": "https://hinzke.de",
+            "en-GB": "https://hinzke.de"
+        }
+    }
+}

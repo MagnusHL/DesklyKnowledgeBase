@@ -1,0 +1,238 @@
+// Deskly Knowledge Base -- Storefront Styles
+
+// Variablen
+$deskly-kb-card-gap: 1.5rem;
+$deskly-kb-card-min-width: 280px;
+
+// Übersichtsseite
+.deskly-kb-overview {
+    padding-bottom: 3rem;
+
+    .deskly-kb-overview-title {
+        margin-bottom: 1.5rem;
+    }
+}
+
+// Suchfeld
+.deskly-kb-search {
+    margin-bottom: 2rem;
+    max-width: 600px;
+
+    .deskly-kb-search-form {
+        .input-group {
+            .form-control {
+                border-radius: 0.375rem 0 0 0.375rem;
+            }
+
+            .btn {
+                border-radius: 0 0.375rem 0.375rem 0;
+            }
+        }
+    }
+}
+
+// Kategorie-Grid
+.deskly-kb-category-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax($deskly-kb-card-min-width, 1fr));
+    gap: $deskly-kb-card-gap;
+}
+
+// Kategorie-Karten
+.deskly-kb-category-card {
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transform: translateY(-2px);
+    }
+
+    .deskly-kb-category-card-link {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+
+        .card-title {
+            margin-bottom: 0.75rem;
+        }
+
+        .card-text {
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+    }
+
+    .deskly-kb-article-count {
+        font-size: 0.8rem;
+    }
+}
+
+// Kategorie-Seite
+.deskly-kb-category-page {
+    padding-bottom: 3rem;
+
+    .deskly-kb-category-header {
+        margin-bottom: 1.5rem;
+
+        h1 {
+            margin-bottom: 0.75rem;
+        }
+
+        .deskly-kb-category-description {
+            color: #6c757d;
+        }
+    }
+}
+
+// Artikel-Liste
+.deskly-kb-article-list {
+    .deskly-kb-article-list-item {
+        transition: box-shadow 0.2s ease;
+
+        &:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .deskly-kb-article-list-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+
+            .card-title {
+                margin-bottom: 0.5rem;
+            }
+
+            .card-text {
+                font-size: 0.9rem;
+            }
+        }
+    }
+
+    .deskly-kb-article-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.375rem;
+        margin-top: 0.5rem;
+    }
+}
+
+// Artikel-Seite
+.deskly-kb-article-page {
+    padding-bottom: 3rem;
+}
+
+.deskly-kb-article {
+    .deskly-kb-article-header {
+        margin-bottom: 2rem;
+
+        h1 {
+            margin-bottom: 0.75rem;
+        }
+    }
+
+    // Content-Typografie
+    .deskly-kb-article-content {
+        line-height: 1.7;
+        font-size: 1rem;
+
+        h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        ul,
+        ol {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+
+            li {
+                margin-bottom: 0.375rem;
+            }
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 0.375rem;
+            margin: 1rem 0;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-size: 0.9em;
+        }
+
+        blockquote {
+            border-left: 4px solid #dee2e6;
+            padding-left: 1rem;
+            margin: 1rem 0;
+            color: #6c757d;
+        }
+
+        table {
+            width: 100%;
+            margin-bottom: 1rem;
+            border-collapse: collapse;
+
+            th,
+            td {
+                padding: 0.75rem;
+                border: 1px solid #dee2e6;
+            }
+
+            th {
+                background-color: #f8f9fa;
+                font-weight: 600;
+            }
+        }
+    }
+}
+
+// Sidebar
+.deskly-kb-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+// Breadcrumb
+.deskly-kb-breadcrumb {
+    margin-bottom: 1.5rem;
+
+    .breadcrumb {
+        background: none;
+        padding: 0;
+        margin-bottom: 0;
+    }
+}
+
+// Responsive Anpassungen
+@media (max-width: 767.98px) {
+    .deskly-kb-category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .deskly-kb-search {
+        max-width: 100%;
+    }
+
+    .deskly-kb-sidebar {
+        position: static;
+        margin-top: 2rem;
+    }
+}

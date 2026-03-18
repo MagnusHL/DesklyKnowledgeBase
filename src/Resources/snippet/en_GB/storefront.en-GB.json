@@ -1,0 +1,20 @@
+{
+    "deskly-kb": {
+        "overview": {
+            "title": "Help & Knowledge Base",
+            "search": "Search...",
+            "articlesCount": "%count% articles",
+            "noCategories": "No categories available yet."
+        },
+        "category": {
+            "backToOverview": "Back to overview",
+            "noArticles": "No articles in this category yet."
+        },
+        "article": {
+            "backToCategory": "Back to %category%"
+        },
+        "breadcrumb": {
+            "help": "Help"
+        }
+    }
+}
