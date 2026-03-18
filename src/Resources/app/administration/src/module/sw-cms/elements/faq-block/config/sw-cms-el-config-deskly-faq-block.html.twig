@@ -9,16 +9,15 @@
             @update:value="onElementUpdate(element)">
         </sw-text-field>
 
-        <sw-single-select
+        <sw-entity-single-select
             v-model:value="element.config.categoryId.value"
+            entity="deskly_kb_category"
             label="Kategorie"
             placeholder="Alle Kategorien"
-            :options="categories"
             labelProperty="name"
-            valueProperty="id"
             showClearableButton
             @update:value="onElementUpdate(element)">
-        </sw-single-select>
+        </sw-entity-single-select>
 
         <sw-number-field
             v-model:value="element.config.maxItems.value"

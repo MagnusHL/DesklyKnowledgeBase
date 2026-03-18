@@ -9,18 +9,6 @@ Component.register('sw-cms-el-config-deskly-faq-block', {
         'cms-element',
     ],
 
-    data() {
-        return {
-            categories: [],
-        };
-    },
-
-    computed: {
-        categoryRepository() {
-            return this.repositoryFactory.create('deskly_kb_category');
-        },
-    },
-
     created() {
         this.createdComponent();
     },
@@ -28,19 +16,6 @@ Component.register('sw-cms-el-config-deskly-faq-block', {
     methods: {
         createdComponent() {
             this.initElementConfig('deskly-faq-block');
-            this.loadCategories();
-        },
-
-        async loadCategories() {
-            const criteria = new Shopware.Data.Criteria();
-            criteria.addSorting(Shopware.Data.Criteria.sort('position', 'ASC'));
-
-            try {
-                const result = await this.categoryRepository.search(criteria, Shopware.Context.api);
-                this.categories = result;
-            } catch {
-                this.categories = [];
-            }
         },
 
         onElementUpdate(element) {
