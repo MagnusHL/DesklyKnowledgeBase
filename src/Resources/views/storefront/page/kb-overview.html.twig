@@ -5,23 +5,28 @@
     {% sw_include '@DesklyKnowledgeBase/storefront/page/kb-jsonld.html.twig' %}
 {% endblock %}
 
+{% block base_breadcrumb %}
+    <div class="breadcrumb cms-breadcrumb container">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList">
+                <li class="breadcrumb-item" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+                    <a href="{{ path('frontend.home.page') }}" itemprop="item">
+                        <span itemprop="name">{{ "general.homeLink"|trans|striptags }}</span>
+                    </a>
+                    <meta itemprop="position" content="0">
+                </li>
+                <li class="breadcrumb-item active" itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" aria-current="page">
+                    <span itemprop="name">{{ "deskly-kb.breadcrumb.help"|trans }}</span>
+                    <meta itemprop="position" content="1">
+                </li>
+            </ol>
+        </nav>
+    </div>
+{% endblock %}
+
 {% block base_content %}
     <div class="cms-page deskly-kb-overview">
         <div class="container">
-
-            {# Breadcrumb #}
-            <nav aria-label="breadcrumb" class="deskly-kb-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ path('frontend.home.page') }}" title="{{ "general.homeLink"|trans|striptags }}">
-                            <span class="icon icon-home"></span>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item active" aria-current="page">
-                        {{ "deskly-kb.breadcrumb.help"|trans }}
-                    </li>
-                </ol>
-            </nav>
 
             {# Seitentitel #}
             <h1 class="deskly-kb-overview-title">
