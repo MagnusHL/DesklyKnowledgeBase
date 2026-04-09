@@ -50,7 +50,6 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
         $criteria = new Criteria();
         $criteria->addFilter(new EqualsFilter('active', true));
         $criteria->addSorting(new FieldSorting('position', FieldSorting::ASCENDING));
-        $criteria->setLimit($maxItems);
         $criteria->addAssociation('category');
 
         if ($config->has('categoryId') && $config->get('categoryId')->getValue()) {
@@ -59,11 +58,18 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
             );
         }
 
+        $hasTags = $config->has('tags') && $config->get('tags')->getValue();
+
+        // Limit nur bei DAL setzen wenn kein PHP-Tag-Filter nötig ist
+        if (!$hasTags) {
+            $criteria->setLimit($maxItems);
+        }
+
         /** @var KbArticleCollection $articles */
         $articles = $this->articleRepository->search($criteria, $context)->getEntities();
 
         // Tag-Filterung in PHP, da Shopware DAL keine native JSON-Array-Suche unterstuetzt
-        if ($config->has('tags') && $config->get('tags')->getValue()) {
+        if ($hasTags) {
             $filterTags = array_map(
                 'trim',
                 explode(',', (string) $config->get('tags')->getValue())
@@ -83,7 +89,7 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
                     }
                 );
 
-                $articles = new KbArticleCollection($filtered->getElements());
+                $articles = new KbArticleCollection(\array_slice($filtered->getElements(), 0, $maxItems, true));
             }
         }
 

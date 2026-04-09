@@ -47,7 +47,7 @@
 
             {# Zurück-Link #}
             <div class="deskly-kb-back-link mb-3">
-                <a href="{{ path('frontend.kb.overview') }}" class="btn btn-outline-secondary btn-sm">
+                <a href="{{ path('frontend.kb.overview') }}" class="btn btn-sm">
                     &larr; {{ "deskly-kb.category.backToOverview"|trans }}
                 </a>
             </div>
@@ -61,21 +61,24 @@
                                class="deskly-kb-article-list-link"
                                title="{{ article.title }}">
                                 <div class="card-body">
-                                    <h2 class="card-title h5">{{ article.title }}</h2>
+                                    <div class="deskly-kb-article-link-content">
+                                        <h2 class="card-title h5">{{ article.title }}</h2>
 
-                                    {% if article.shortText %}
-                                        <p class="card-text text-muted">
-                                            {{ article.shortText|striptags|u.truncate(200, '...') }}
-                                        </p>
-                                    {% endif %}
+                                        {% if article.shortText %}
+                                            <p class="card-text">
+                                                {{ article.shortText|striptags|u.truncate(200, '...') }}
+                                            </p>
+                                        {% endif %}
 
-                                    {% if article.tags is not empty %}
-                                        <div class="deskly-kb-article-tags">
-                                            {% for tag in article.tags %}
-                                                <span class="badge bg-light text-dark">{{ tag }}</span>
-                                            {% endfor %}
-                                        </div>
-                                    {% endif %}
+                                        {% if article.tags is not empty %}
+                                            <div class="deskly-kb-article-tags">
+                                                {% for tag in article.tags %}
+                                                    <span class="badge">{{ tag }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <span class="deskly-kb-article-arrow" aria-hidden="true">&rarr;</span>
                                 </div>
                             </a>
                         </article>

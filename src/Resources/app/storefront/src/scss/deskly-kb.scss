@@ -1,4 +1,5 @@
 // Deskly Knowledge Base -- Storefront Styles
+// Angelehnt an Hinzke-Theme: $sw-color-brand-primary, #1a1a2e, #e5e5e5, 12px Radii
 
 // Variablen
 $deskly-kb-card-gap: 1.5rem;
@@ -10,22 +11,43 @@ $deskly-kb-card-min-width: 280px;
 
     .deskly-kb-overview-title {
         margin-bottom: 1.5rem;
+        text-align: center;
+        font-weight: 700;
     }
 }
 
 // Suchfeld
 .deskly-kb-search {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
     max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 
     .deskly-kb-search-form {
         .input-group {
             .form-control {
-                border-radius: 0.375rem 0 0 0.375rem;
+                border-radius: 8px 0 0 8px;
+                border: 2px solid #e5e5e5;
+                padding: 0.75rem 1rem;
+                font-size: 1rem;
+
+                &:focus {
+                    border-color: $sw-color-brand-primary;
+                    box-shadow: 0 0 0 3px rgba($sw-color-brand-primary, 0.15);
+                }
             }
 
             .btn {
-                border-radius: 0 0.375rem 0.375rem 0;
+                border-radius: 0 8px 8px 0;
+                background: #1a1a2e;
+                border-color: #1a1a2e;
+                padding: 0.75rem 1.25rem;
+
+                &:hover {
+                    background: $sw-color-brand-primary;
+                    border-color: $sw-color-brand-primary;
+                    color: #1a1a2e;
+                }
             }
         }
     }
@@ -40,11 +62,14 @@ $deskly-kb-card-min-width: 280px;
 
 // Kategorie-Karten
 .deskly-kb-category-card {
-    transition: box-shadow 0.2s ease, transform 0.2s ease;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    transition: box-shadow 0.25s ease, transform 0.25s ease;
 
     &:hover {
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+        transform: translateY(-4px);
     }
 
     .deskly-kb-category-card-link {
@@ -54,16 +79,23 @@ $deskly-kb-card-min-width: 280px;
 
         .card-title {
             margin-bottom: 0.75rem;
+            color: #1a1a2e;
         }
 
         .card-text {
             font-size: 0.9rem;
             margin-bottom: 1rem;
+            color: #555;
         }
     }
 
     .deskly-kb-article-count {
         font-size: 0.8rem;
+        background: rgba($sw-color-brand-primary, 0.12);
+        color: #1a1a2e;
+        border-radius: 50px;
+        padding: 0.25rem 0.75rem;
+        font-weight: 600;
     }
 }
 
@@ -76,10 +108,29 @@ $deskly-kb-card-min-width: 280px;
 
         h1 {
             margin-bottom: 0.75rem;
+            color: #1a1a2e;
         }
 
         .deskly-kb-category-description {
-            color: #6c757d;
+            color: #555;
+        }
+    }
+}
+
+// Zurück-Link (Theme-konsistent)
+.deskly-kb-back-link {
+    .btn {
+        border: 2px solid $sw-color-brand-primary;
+        border-radius: 8px;
+        color: #1a1a2e;
+        font-weight: 600;
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+
+        &:hover {
+            background: $sw-color-brand-primary;
+            color: #1a1a2e;
         }
     }
 }
@@ -87,10 +138,19 @@ $deskly-kb-card-min-width: 280px;
 // Artikel-Liste
 .deskly-kb-article-list {
     .deskly-kb-article-list-item {
-        transition: box-shadow 0.2s ease;
+        border: 1px solid #e5e5e5;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: box-shadow 0.25s ease, transform 0.25s ease;
 
         &:hover {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+            transform: translateY(-2px);
+
+            .deskly-kb-article-arrow {
+                transform: translateX(4px);
+                color: $sw-color-brand-primary;
+            }
         }
 
         .deskly-kb-article-list-link {
@@ -98,14 +158,34 @@ $deskly-kb-card-min-width: 280px;
             text-decoration: none;
             color: inherit;
 
+            .card-body {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .deskly-kb-article-link-content {
+                flex: 1;
+            }
+
             .card-title {
                 margin-bottom: 0.5rem;
+                color: #1a1a2e;
             }
 
             .card-text {
                 font-size: 0.9rem;
+                color: #555;
             }
         }
+    }
+
+    .deskly-kb-article-arrow {
+        font-size: 1.25rem;
+        color: #999;
+        transition: transform 0.2s ease, color 0.2s ease;
+        flex-shrink: 0;
+        margin-top: 0.25rem;
     }
 
     .deskly-kb-article-tags {
@@ -113,6 +193,13 @@ $deskly-kb-card-min-width: 280px;
         flex-wrap: wrap;
         gap: 0.375rem;
         margin-top: 0.5rem;
+
+        .badge {
+            background: rgba($sw-color-brand-primary, 0.12);
+            color: #1a1a2e;
+            border-radius: 50px;
+            font-weight: 500;
+        }
     }
 }
 
@@ -208,6 +295,19 @@ $deskly-kb-card-min-width: 280px;
 .deskly-kb-sidebar {
     position: sticky;
     top: 2rem;
+
+    .btn {
+        border: 2px solid $sw-color-brand-primary;
+        border-radius: 8px;
+        color: #1a1a2e;
+        font-weight: 600;
+        min-height: 44px;
+
+        &:hover {
+            background: $sw-color-brand-primary;
+            color: #1a1a2e;
+        }
+    }
 }
 
 // Breadcrumb
@@ -218,6 +318,116 @@ $deskly-kb-card-min-width: 280px;
         background: none;
         padding: 0;
         margin-bottom: 0;
+    }
+}
+
+// === FAQ-Block (CMS-Element) ===
+// Angelehnt an .brl-faq aus dem Hinzke-Theme (overrides.scss:1217)
+.cms-element-deskly-faq-block {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 0;
+
+    .deskly-faq-block__list {
+        border-top: 1px solid #e5e5e5;
+    }
+
+    .deskly-faq-block__item {
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .deskly-faq-block__details {
+        // Browser-Default-Dreieck entfernen
+        > summary {
+            list-style: none;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+        }
+    }
+
+    .deskly-faq-block__summary {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1.25rem 0;
+        cursor: pointer;
+        min-height: 44px;
+
+        &:hover {
+            .deskly-faq-block__title {
+                color: $sw-color-brand-primary;
+            }
+
+            .deskly-faq-block__icon {
+                border-color: $sw-color-brand-primary;
+            }
+        }
+    }
+
+    .deskly-faq-block__title {
+        font-size: 1.15rem;
+        font-weight: 600;
+        color: #1a1a2e;
+        margin: 0;
+        transition: color 0.2s ease;
+    }
+
+    // Chevron-Icon (wie .brl-faq-question::after)
+    .deskly-faq-block__icon {
+        width: 0.5em;
+        height: 0.5em;
+        border-right: 2px solid #999;
+        border-bottom: 2px solid #999;
+        transform: rotate(45deg);
+        transition: transform 0.25s ease, border-color 0.2s ease;
+        flex-shrink: 0;
+        margin-left: 1rem;
+    }
+
+    // Open-State: Chevron dreht nach oben
+    .deskly-faq-block__details[open] {
+        .deskly-faq-block__icon {
+            transform: rotate(-135deg);
+        }
+
+        .deskly-faq-block__summary .deskly-faq-block__title {
+            color: $sw-color-brand-primary;
+        }
+    }
+
+    .deskly-faq-block__answer {
+        padding: 0 0 1.25rem;
+
+        .deskly-faq-block__answer-text {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1rem;
+
+            p {
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    .deskly-faq-block__link {
+        color: $sw-color-brand-primary;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        margin-top: 0.75rem;
+        display: inline-block;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .deskly-faq-block__empty {
+        text-align: center;
+        padding: 2rem 0;
+        color: #999;
     }
 }
 
@@ -234,5 +444,13 @@ $deskly-kb-card-min-width: 280px;
     .deskly-kb-sidebar {
         position: static;
         margin-top: 2rem;
+    }
+
+    .cms-element-deskly-faq-block {
+        padding: 1.5rem 0;
+
+        .deskly-faq-block__title {
+            font-size: 1rem;
+        }
     }
 }
