@@ -2,7 +2,8 @@
     "deskly-kb": {
         "overview": {
             "title": "Help & Knowledge Base",
-            "search": "Search...",
+            "subtitle": "Guides, print data tips, and answers to common questions.",
+            "search": "What are you looking for?",
             "articlesCount": "%count% articles",
             "noCategories": "No categories available yet."
         },

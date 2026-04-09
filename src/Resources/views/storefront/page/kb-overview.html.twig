@@ -26,61 +26,69 @@
 
 {% block base_content %}
     <div class="cms-page deskly-kb-overview">
-        <div class="container">
 
-            {# Seitentitel #}
-            <h1 class="deskly-kb-overview-title">
-                {{ "deskly-kb.overview.title"|trans }}
-            </h1>
+        {# Sektion 1: Hero (weiss) #}
+        <section class="deskly-kb-hero">
+            <div class="container">
+                <h1 class="deskly-kb-hero__title">
+                    {{ "deskly-kb.overview.title"|trans }}
+                </h1>
+                <p class="deskly-kb-hero__subtitle">
+                    {{ "deskly-kb.overview.subtitle"|trans }}
+                </p>
 
-            {# Suchfeld #}
-            <div class="deskly-kb-search">
-                <form action="{{ path('frontend.kb.overview') }}" method="GET" class="deskly-kb-search-form">
-                    <div class="input-group">
-                        <input type="text"
-                               name="q"
-                               class="form-control"
-                               placeholder="{{ "deskly-kb.overview.search"|trans }}"
-                               value="{{ app.request.query.get('q', '') }}"
-                               aria-label="{{ "deskly-kb.overview.search"|trans }}">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="icon icon-search"></span>
-                        </button>
-                    </div>
-                </form>
+                <div class="deskly-kb-search">
+                    <form action="{{ path('frontend.kb.overview') }}" method="GET" class="deskly-kb-search-form">
+                        <div class="input-group">
+                            <input type="text"
+                                   name="q"
+                                   class="form-control"
+                                   placeholder="{{ "deskly-kb.overview.search"|trans }}"
+                                   value="{{ app.request.query.get('q', '') }}"
+                                   aria-label="{{ "deskly-kb.overview.search"|trans }}">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="icon icon-search"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
+        </section>
 
-            {# Kategorie-Grid #}
-            {% if page.categories is not empty %}
-                <section class="deskly-kb-category-grid">
-                    {% for category in page.categories %}
-                        <article class="deskly-kb-category-card card">
-                            <a href="{{ path('frontend.kb.category', { categorySlug: category.slug }) }}"
-                               class="deskly-kb-category-card-link"
-                               title="{{ category.name }}">
-                                <div class="card-body">
-                                    <h2 class="card-title h5">{{ category.name }}</h2>
+        {# Sektion 2: Kategorien (hellgrau) #}
+        {% if page.categories is not empty %}
+            <section class="deskly-kb-categories">
+                <div class="container">
+                    <div class="deskly-kb-category-grid">
+                        {% for category in page.categories %}
+                            <article class="deskly-kb-category-card">
+                                <a href="{{ path('frontend.kb.category', { categorySlug: category.slug }) }}"
+                                   class="deskly-kb-category-card__link"
+                                   title="{{ category.name }}">
+                                    <h2 class="deskly-kb-category-card__title">{{ category.name }}</h2>
 
                                     {% if category.description %}
-                                        <p class="card-text">
+                                        <p class="deskly-kb-category-card__text">
                                             {{ category.description|striptags|u.truncate(150, '...') }}
                                         </p>
                                     {% endif %}
 
-                                    <span class="deskly-kb-article-count">
+                                    <span class="deskly-kb-category-card__count">
                                         {{ "deskly-kb.overview.articlesCount"|trans({ '%count%': category.articles ? category.articles|length : 0 }) }}
                                     </span>
-                                </div>
-                            </a>
-                        </article>
-                    {% endfor %}
-                </section>
-            {% else %}
+                                </a>
+                            </article>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% else %}
+            <div class="container">
                 <div class="alert alert-info">
                     {{ "deskly-kb.overview.noCategories"|trans }}
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
 
-        </div>
     </div>
 {% endblock %}

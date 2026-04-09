@@ -32,64 +32,64 @@
 
 {% block base_content %}
     <div class="cms-page deskly-kb-category-page">
-        <div class="container">
 
-            {# Kategorie-Header #}
-            <header class="deskly-kb-category-header">
+        {# Sektion 1: Header (weiss) #}
+        <section class="deskly-kb-category-hero">
+            <div class="container">
+                <a href="{{ path('frontend.kb.overview') }}" class="deskly-kb-back-link">
+                    &larr; {{ "deskly-kb.category.backToOverview"|trans }}
+                </a>
+
                 <h1>{{ page.category.name }}</h1>
 
                 {% if page.category.description %}
-                    <div class="deskly-kb-category-description lead">
+                    <p class="deskly-kb-category-hero__description">
                         {{ page.category.description|raw }}
-                    </div>
+                    </p>
                 {% endif %}
-            </header>
-
-            {# Zurück-Link #}
-            <div class="deskly-kb-back-link mb-3">
-                <a href="{{ path('frontend.kb.overview') }}" class="btn btn-sm">
-                    &larr; {{ "deskly-kb.category.backToOverview"|trans }}
-                </a>
             </div>
+        </section>
 
-            {# Artikel-Liste #}
-            {% if page.articles is not empty %}
-                <section class="deskly-kb-article-list">
-                    {% for article in page.articles %}
-                        <article class="deskly-kb-article-list-item card mb-3">
+        {# Sektion 2: Artikel (hellgrau) #}
+        {% if page.articles is not empty %}
+            <section class="deskly-kb-articles">
+                <div class="container">
+                    <div class="deskly-kb-article-list">
+                        {% for article in page.articles %}
                             <a href="{{ path('frontend.kb.article', { categorySlug: page.category.slug, articleSlug: article.slug }) }}"
-                               class="deskly-kb-article-list-link"
+                               class="deskly-kb-article-list__item"
                                title="{{ article.title }}">
-                                <div class="card-body">
-                                    <div class="deskly-kb-article-link-content">
-                                        <h2 class="card-title h5">{{ article.title }}</h2>
+                                <div class="deskly-kb-article-list__content">
+                                    <h2 class="deskly-kb-article-list__title">{{ article.title }}</h2>
 
-                                        {% if article.shortText %}
-                                            <p class="card-text">
-                                                {{ article.shortText|striptags|u.truncate(200, '...') }}
-                                            </p>
-                                        {% endif %}
+                                    {% if article.shortText %}
+                                        <p class="deskly-kb-article-list__text">
+                                            {{ article.shortText|striptags|u.truncate(200, '...') }}
+                                        </p>
+                                    {% endif %}
 
-                                        {% if article.tags is not empty %}
-                                            <div class="deskly-kb-article-tags">
-                                                {% for tag in article.tags %}
-                                                    <span class="badge">{{ tag }}</span>
-                                                {% endfor %}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                    <span class="deskly-kb-article-arrow" aria-hidden="true">&rarr;</span>
+                                    {% if article.tags is not empty %}
+                                        <div class="deskly-kb-article-list__tags">
+                                            {% for tag in article.tags %}
+                                                <span class="deskly-kb-article-list__tag">{{ tag }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
                                 </div>
+
+                                <span class="deskly-kb-article-list__arrow" aria-hidden="true">&rsaquo;</span>
                             </a>
-                        </article>
-                    {% endfor %}
-                </section>
-            {% else %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        {% else %}
+            <div class="container">
                 <div class="alert alert-info">
                     {{ "deskly-kb.category.noArticles"|trans }}
                 </div>
-            {% endif %}
+            </div>
+        {% endif %}
 
-        </div>
     </div>
 {% endblock %}

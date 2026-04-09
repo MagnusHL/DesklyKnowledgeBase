@@ -2,7 +2,8 @@
     "deskly-kb": {
         "overview": {
             "title": "Hilfe & Wissensdatenbank",
-            "search": "Suchen...",
+            "subtitle": "Anleitungen, Druckdaten-Tipps und Antworten auf häufige Fragen.",
+            "search": "Wonach suchen Sie?",
             "articlesCount": "%count% Artikel",
             "noCategories": "Noch keine Kategorien vorhanden."
         },
