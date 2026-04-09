@@ -47,7 +47,7 @@
                                    value="{{ app.request.query.get('q', '') }}"
                                    aria-label="{{ "deskly-kb.overview.search"|trans }}">
                             <button type="submit" class="btn btn-primary">
-                                <span class="icon icon-search"></span>
+                                {% sw_icon 'search' style { 'size': 'sm' } %}
                             </button>
                         </div>
                     </form>

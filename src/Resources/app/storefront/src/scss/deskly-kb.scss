@@ -66,20 +66,30 @@ $deskly-kb-radius-sm: 8px;
             padding: 0.875rem 1.5rem;
             font-size: 1rem;
             min-width: 56px;
+            color: #fff;
+
+            .icon svg {
+                fill: #fff;
+            }
 
             &:hover {
                 background: $sw-color-brand-primary;
                 border-color: $sw-color-brand-primary;
                 color: $deskly-kb-dark;
+
+                .icon svg {
+                    fill: $deskly-kb-dark;
+                }
             }
         }
     }
 }
 
-// Kategorien-Sektion (hellgrau)
+// Kategorien-Sektion (hellgrau + weisser Abstand nach unten)
 .deskly-kb-categories {
     background: $deskly-kb-bg-alt;
     padding: 3rem 0 3.5rem;
+    margin-bottom: 3rem;
 }
 
 // Kategorie-Grid
@@ -178,10 +188,11 @@ $deskly-kb-radius-sm: 8px;
     }
 }
 
-// Artikel-Sektion (hellgrau)
+// Artikel-Sektion (hellgrau + weisser Abstand nach unten)
 .deskly-kb-articles {
     background: $deskly-kb-bg-alt;
     padding: 3rem 0 3.5rem;
+    margin-bottom: 3rem;
 }
 
 // Artikel-Liste (zusammenhängender weisser Block mit Trennlinien)
