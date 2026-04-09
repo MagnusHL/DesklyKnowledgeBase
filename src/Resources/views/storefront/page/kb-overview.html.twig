@@ -62,7 +62,7 @@
                                     <h2 class="card-title h5">{{ category.name }}</h2>
 
                                     {% if category.description %}
-                                        <p class="card-text text-muted">
+                                        <p class="card-text">
                                             {{ category.description|striptags|u.truncate(150, '...') }}
                                         </p>
                                     {% endif %}
