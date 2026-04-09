@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deskly\KnowledgeBase\Api;
 
+use Deskly\KnowledgeBase\Util\SlugGenerator;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
@@ -78,6 +79,10 @@ class KbAdminController extends AbstractController
 
         $id = $data['id'] ?? Uuid::randomHex();
         $data['id'] = $id;
+
+        if (empty($data['slug']) && !empty($data['name'])) {
+            $data['slug'] = SlugGenerator::slugify($data['name']);
+        }
 
         $this->categoryRepository->create([$data], $context);
 
@@ -170,6 +175,10 @@ class KbAdminController extends AbstractController
 
         $id = $data['id'] ?? Uuid::randomHex();
         $data['id'] = $id;
+
+        if (empty($data['slug']) && !empty($data['title'])) {
+            $data['slug'] = SlugGenerator::slugify($data['title']);
+        }
 
         $this->articleRepository->create([$data], $context);
 
