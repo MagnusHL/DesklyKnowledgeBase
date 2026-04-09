@@ -61,25 +61,20 @@ $deskly-kb-radius-sm: 8px;
 
         .btn {
             border-radius: 0 $deskly-kb-radius-sm $deskly-kb-radius-sm 0;
-            background: $deskly-kb-dark;
-            border-color: $deskly-kb-dark;
+            background: $sw-color-brand-primary;
+            border-color: $sw-color-brand-primary;
             padding: 0.875rem 1.5rem;
             font-size: 1rem;
             min-width: 56px;
-            color: #fff;
+            color: $deskly-kb-dark;
 
             .icon svg {
-                fill: #fff;
+                fill: $deskly-kb-dark;
             }
 
             &:hover {
-                background: $sw-color-brand-primary;
-                border-color: $sw-color-brand-primary;
-                color: $deskly-kb-dark;
-
-                .icon svg {
-                    fill: $deskly-kb-dark;
-                }
+                background: darken($sw-color-brand-primary, 8%);
+                border-color: darken($sw-color-brand-primary, 8%);
             }
         }
     }
