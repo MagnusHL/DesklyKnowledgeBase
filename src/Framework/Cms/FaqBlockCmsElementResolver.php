@@ -33,7 +33,14 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
 
     public function collect(CmsSlotEntity $slot, ResolverContext $resolverContext): ?CriteriaCollection
     {
+        return null;
+    }
+
+    public function enrich(CmsSlotEntity $slot, ResolverContext $resolverContext, ElementDataCollection $result): void
+    {
         $config = $slot->getFieldConfig();
+        $context = $resolverContext->getSalesChannelContext()->getContext();
+
         $maxItems = self::DEFAULT_MAX_ITEMS;
 
         if ($config->has('maxItems') && $config->get('maxItems')->getValue()) {
@@ -46,36 +53,14 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
         $criteria->setLimit($maxItems);
         $criteria->addAssociation('category');
 
-        // Kategorie-Filter
         if ($config->has('categoryId') && $config->get('categoryId')->getValue()) {
             $criteria->addFilter(
                 new EqualsFilter('categoryId', $config->get('categoryId')->getValue())
             );
         }
 
-        $criteriaCollection = new CriteriaCollection();
-        $criteriaCollection->add(
-            'deskly_kb_articles_' . $slot->getUniqueIdentifier(),
-            'deskly_kb_article',
-            $criteria
-        );
-
-        return $criteriaCollection;
-    }
-
-    public function enrich(CmsSlotEntity $slot, ResolverContext $resolverContext, ElementDataCollection $result): void
-    {
-        $config = $slot->getFieldConfig();
-        $searchResult = $result->get('deskly_kb_articles_' . $slot->getUniqueIdentifier());
-
-        if ($searchResult === null) {
-            $slot->setData(new KbArticleCollection());
-
-            return;
-        }
-
         /** @var KbArticleCollection $articles */
-        $articles = $searchResult->getEntities();
+        $articles = $this->articleRepository->search($criteria, $context)->getEntities();
 
         // Tag-Filterung in PHP, da Shopware DAL keine native JSON-Array-Suche unterstuetzt
         if ($config->has('tags') && $config->get('tags')->getValue()) {
