@@ -4,18 +4,18 @@
 
     <div class="cms-element-deskly-faq-block">
         {% if articles is not empty %}
-            <div class="deskly-faq-block__list" itemscope itemtype="https://schema.org/FAQPage">
+            <div class="deskly-faq-block__list">
                 {% for article in articles %}
-                    <div class="deskly-faq-block__item" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <div class="deskly-faq-block__item">
                         <details class="deskly-faq-block__details">
                             <summary class="deskly-faq-block__summary">
-                                <h3 class="deskly-faq-block__title" itemprop="name">
+                                <h3 class="deskly-faq-block__title">
                                     {{ article.title }}
                                 </h3>
                                 <span class="deskly-faq-block__icon" aria-hidden="true"></span>
                             </summary>
-                            <div class="deskly-faq-block__answer" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                                <div class="deskly-faq-block__answer-text" itemprop="text">
+                            <div class="deskly-faq-block__answer">
+                                <div class="deskly-faq-block__answer-text">
                                     {{ article.shortText|raw }}
                                 </div>
                                 {% if article.category %}
