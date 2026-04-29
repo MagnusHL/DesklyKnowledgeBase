@@ -1,7 +1,7 @@
 {
     "name": "deskly/knowledge-base",
     "description": "API-first Knowledge Base & Help Center for Shopware 6 - SEO-optimized articles, FAQ CMS elements, and automation-ready API.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "type": "shopware-platform-plugin",
     "license": "MIT",
     "authors": [

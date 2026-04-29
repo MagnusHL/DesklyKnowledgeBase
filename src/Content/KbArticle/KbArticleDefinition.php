@@ -8,6 +8,7 @@ use Deskly\KnowledgeBase\Content\KbCategory\KbCategoryDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityDefinition;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\BoolField;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\FkField;
+use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\AllowHtml;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\ApiAware;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\PrimaryKey;
 use Shopware\Core\Framework\DataAbstractionLayer\Field\Flag\Required;
@@ -48,7 +49,7 @@ class KbArticleDefinition extends EntityDefinition
             (new StringField('meta_title', 'metaTitle'))->addFlags(new ApiAware()),
             (new StringField('meta_description', 'metaDescription'))->addFlags(new ApiAware()),
             (new LongTextField('short_text', 'shortText'))->addFlags(new Required(), new ApiAware()),
-            (new LongTextField('content', 'content'))->addFlags(new Required(), new ApiAware()),
+            (new LongTextField('content', 'content'))->addFlags(new Required(), new ApiAware(), new AllowHtml()),
             (new JsonField('tags', 'tags'))->addFlags(new ApiAware()),
             (new IntField('position', 'position'))->addFlags(new ApiAware()),
             (new BoolField('active', 'active'))->addFlags(new ApiAware()),
