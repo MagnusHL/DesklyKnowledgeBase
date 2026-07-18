@@ -3,7 +3,7 @@
 
 {% if desklyJsonLd is defined and desklyJsonLd is not empty %}
     {% for schema in desklyJsonLd %}
-        <script type="application/ld+json">{{ schema|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        <script type="application/ld+json">{{ schema|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
     {% endfor %}
 {% elseif page is defined %}
     {# Fallback: Direkte Generierung ohne Subscriber-Variable #}
@@ -30,7 +30,7 @@
                 "@type": "WebPage",
                 "@id": baseUrl ~ '/hilfe/' ~ (category ? category.slug : '') ~ '/' ~ article.slug
             }
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
 
         {# BreadcrumbList #}
         {% set breadcrumbItems = [
@@ -66,7 +66,7 @@
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             "itemListElement": breadcrumbItems
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
 
     {# Kategorie-Seite #}
     {% elseif page.category is defined and page.category is not null and (page.article is not defined or page.article is null) %}
@@ -79,7 +79,7 @@
             "name": category.metaTitle ?? category.name,
             "description": category.metaDescription ?? category.description ?? '',
             "url": baseUrl ~ '/hilfe/' ~ category.slug
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
 
         <script type="application/ld+json">{{ {
             "@context": "https://schema.org",
@@ -97,7 +97,7 @@
                     "name": category.name
                 }
             ]
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
 
     {# Uebersicht-Seite #}
     {% elseif page.categories is defined %}
@@ -109,7 +109,7 @@
             "name": "Hilfe & Support",
             "description": "Hilfe-Center mit Anleitungen, FAQs und Support-Artikeln.",
             "url": baseUrl ~ '/hilfe'
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
 
         <script type="application/ld+json">{{ {
             "@context": "https://schema.org",
@@ -121,6 +121,6 @@
                     "name": "Hilfe"
                 }
             ]
-        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
+        }|json_encode(constant('JSON_UNESCAPED_SLASHES') b-or constant('JSON_UNESCAPED_UNICODE') b-or constant('JSON_HEX_TAG') b-or constant('JSON_HEX_AMP') b-or constant('JSON_HEX_APOS') b-or constant('JSON_HEX_QUOT') b-or constant('JSON_PRETTY_PRINT'))|raw }}</script>
     {% endif %}
 {% endif %}

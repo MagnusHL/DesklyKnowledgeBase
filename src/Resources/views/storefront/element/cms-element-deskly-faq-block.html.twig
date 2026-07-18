@@ -16,7 +16,7 @@
                             </summary>
                             <div class="deskly-faq-block__answer">
                                 <div class="deskly-faq-block__answer-text">
-                                    {{ article.shortText|raw }}
+                                    {{ article.shortText|nl2br }}
                                 </div>
                                 {% if article.category %}
                                     <a href="{{ path('frontend.kb.article', { categorySlug: article.category.slug, articleSlug: article.slug }) }}"

@@ -255,8 +255,9 @@ class FreeScoutSyncService
                 continue;
             }
 
+            // Beschreibung sanitisieren – wird im Storefront mit |raw gerendert (XSS-Schutz)
             $description = trim((string) ($exportCategory['description'] ?? ''));
-            $description = $description === '' ? null : $description;
+            $description = $description === '' ? null : $this->sanitizer->sanitize($description);
             $position = (int) ($exportCategory['sort_order'] ?? 0);
             $active = (int) ($exportCategory['visibility'] ?? 1) === 1;
 
