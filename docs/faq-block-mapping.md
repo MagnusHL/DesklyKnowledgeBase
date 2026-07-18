@@ -1,6 +1,6 @@
 # FAQ-Block Umstellung: alter Tag-Filter → Kategorie-Slug
 
-Stand: 2026-07-18 · **Anzuwenden NACH dem ersten echten Sync** (der Sync schreibt die
+Stand: 2026-07-18 · **STATUS: ANGEWENDET am 2026-07-18** (30 Blöcke gesetzt, 11 waren schon korrekt) (der Sync schreibt die
 Kategorie-Slugs als `tags`; vorher würden die Blöcke leer laufen).
 
 Jeder `deskly-faq-block` filtert per `tags` (kommagetrennt, OR-Match via `array_intersect`).
