@@ -5,3 +5,4 @@
 *.cache
 .claude/
 .vscode/
+.DS_Store
