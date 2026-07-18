@@ -669,6 +669,32 @@ class FreeScoutSyncService
         return $existing === null || $slugOwner[$candidate] !== $existing->getId();
     }
 
+    /**
+     * Liefert einen Slug, der nicht in $taken vorkommt. Leere Basis → Fallback.
+     * Bei Kollision wird -2/-3/... angehängt (SEO-stabile Basis bleibt erhalten).
+     *
+     * @param array<string, true> $taken bereits vergebene Slugs (inkl. Bestands-Slugs)
+     */
+    private function uniqueSlug(string $base, array $taken, string $fallback): string
+    {
+        if ($base === '') {
+            $base = SlugGenerator::slugify($fallback);
+        }
+        if ($base === '') {
+            $base = $fallback;
+        }
+
+        $candidate = $base;
+        $counter = 1;
+
+        while (isset($taken[$candidate])) {
+            ++$counter;
+            $candidate = $base . '-' . $counter;
+        }
+
+        return $candidate;
+    }
+
     // ---- Text-Aufbereitung ----
 
     private function buildShortText(string $plainText, string $fallback): string
