@@ -47,6 +47,7 @@ class KbCategoryDefinition extends EntityDefinition
             (new StringField('meta_description', 'metaDescription'))->addFlags(new ApiAware()),
             (new IntField('position', 'position'))->addFlags(new ApiAware()),
             (new BoolField('active', 'active'))->addFlags(new ApiAware()),
+            (new IntField('freescout_id', 'freescoutId'))->addFlags(new ApiAware()),
             new OneToManyAssociationField('articles', KbArticleDefinition::class, 'category_id'),
         ]);
     }

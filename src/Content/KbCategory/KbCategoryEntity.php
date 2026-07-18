@@ -19,6 +19,7 @@ class KbCategoryEntity extends Entity
     protected ?string $metaDescription = null;
     protected int $position = 0;
     protected bool $active = true;
+    protected ?int $freescoutId = null;
     protected ?KbArticleCollection $articles = null;
 
     public function getName(): string
@@ -89,6 +90,16 @@ class KbCategoryEntity extends Entity
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getFreescoutId(): ?int
+    {
+        return $this->freescoutId;
+    }
+
+    public function setFreescoutId(?int $freescoutId): void
+    {
+        $this->freescoutId = $freescoutId;
     }
 
     public function getArticles(): ?KbArticleCollection

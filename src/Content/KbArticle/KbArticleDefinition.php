@@ -53,6 +53,7 @@ class KbArticleDefinition extends EntityDefinition
             (new JsonField('tags', 'tags'))->addFlags(new ApiAware()),
             (new IntField('position', 'position'))->addFlags(new ApiAware()),
             (new BoolField('active', 'active'))->addFlags(new ApiAware()),
+            (new IntField('freescout_id', 'freescoutId'))->addFlags(new ApiAware()),
             new ManyToOneAssociationField('category', 'category_id', KbCategoryDefinition::class, 'id', false),
         ]);
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/shopware/trunk/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>FreeScout Sync</title>
+        <title lang="de-DE">FreeScout-Sync</title>
+
+        <input-field type="text">
+            <name>freescoutExportUrl</name>
+            <label>FreeScout base URL</label>
+            <label lang="de-DE">FreeScout-Basis-URL</label>
+            <helpText>Base URL of the FreeScout instance providing the KB export endpoint.</helpText>
+            <helpText lang="de-DE">Basis-URL der FreeScout-Instanz mit dem KB-Export-Endpoint.</helpText>
+            <defaultValue>https://inbox.hinzke.de</defaultValue>
+        </input-field>
+
+        <input-field type="int">
+            <name>freescoutMailboxId</name>
+            <label>FreeScout mailbox ID</label>
+            <label lang="de-DE">FreeScout-Mailbox-ID</label>
+            <defaultValue>4</defaultValue>
+        </input-field>
+
+        <input-field type="password">
+            <name>freescoutExportToken</name>
+            <label>Export token</label>
+            <label lang="de-DE">Export-Token</label>
+            <helpText>Token for the KB export endpoint (query parameter "token").</helpText>
+            <helpText lang="de-DE">Token für den KB-Export-Endpoint (Query-Parameter "token").</helpText>
+        </input-field>
+
+        <input-field type="bool">
+            <name>syncEnabled</name>
+            <label>Enable scheduled sync</label>
+            <label lang="de-DE">Automatischen Sync aktivieren</label>
+            <helpText>Runs the FreeScout sync every 30 minutes via scheduled task. The console command ignores this switch.</helpText>
+            <helpText lang="de-DE">Führt den FreeScout-Sync alle 30 Minuten per Scheduled Task aus. Der Konsolen-Befehl ignoriert diesen Schalter.</helpText>
+            <defaultValue>false</defaultValue>
+        </input-field>
+    </card>
+</config>
