@@ -20,7 +20,7 @@ Entscheidungen Magnus (2026-07-18): gebundene Produkte → `bindungen`, übrige 
 | 4 | Plot (Kat) | `plot` | klar |
 | 5 | Poster/Plakate (Kat) | `poster-plakate` | klar |
 | 6 | Drucken & Binden (Kat) | `drucken-binden` | klar |
-| 7 | Großformatdruck (Kat) | `grossformatdruck` | klar |
+| 7 | Großformatdruck (Kat) | `grossformatdruck-faq` | klar (echter Deskly-Slug, Sync bewahrte Bestand) |
 | 8 | Sleeking/Veredelung (Kat) | `material-veredelung` | klar |
 | 9 | Werbetechnik (Kat) | `werbetechnik` | klar |
 | 10 | Home (Startseite) | `haeufige-fragen` | klar |
@@ -42,8 +42,8 @@ Entscheidungen Magnus (2026-07-18): gebundene Produkte → `bindungen`, übrige 
 | 26 | Flyer DIN A4 (Produkt) | `flyer` | klar |
 | 27 | Versand & Logistik (Kat) | `bestellung-versand` | klar |
 | 28 | Aufkleber (Kat) | `werbetechnik` | klar |
-| 29 | Banner (Kat) | `grossformatdruck` | klar |
-| 30 | Rollups (Kat) | `grossformatdruck` | klar |
+| 29 | Banner (Kat) | `grossformatdruck-faq` | klar |
+| 30 | Rollups (Kat) | `grossformatdruck-faq` | klar |
 | 31 | Schilder (Kat) | `werbetechnik` | klar |
 | 32 | Versand und Zahlung (Landingpage) | `bestellung-versand,zahlung-rechnung` | Entscheidung: kombiniert |
 | 33 | Polymere Folie (Produkt) | `werbetechnik` | Entscheidung |
