@@ -22,14 +22,25 @@ class KbRedirectController extends StorefrontController
     }
 
     /**
-     * Leitet alte FreeScout-Hilfe-URLs (/hc/{mailboxId}/{articleId}/slug bzw. /hc/{mailboxId}/{articleId}-slug)
-     * per 301 auf die Deskly-Artikel-URL um. Der category_id-Query-Parameter wird ignoriert.
+     * Leitet FreeScout-Hilfe-Artikel-URLs per 301 auf die Deskly-Artikel-URL um.
+     * Deckt beide Custom-Domain-Varianten ab:
+     *   - hinzke.de/hc/{mailboxId}/{articleId}/{slug}          (Domain = hinzke.de)
+     *   - hinzke.de/hilfe/hc/{mailboxId}/{articleId}/{slug}    (Domain = hinzke.de/hilfe)
+     * Die /hilfe/hc-Route bekommt hohe Priorität, damit sie nicht von
+     * /hilfe/{categorySlug}/{articleSlug} geschluckt wird. category_id-Query wird ignoriert.
      */
     #[Route(
         path: '/hc/{mailboxId}/{articleId}/{slug?}',
         name: 'frontend.kb.freescout.redirect',
         requirements: ['mailboxId' => '\d+', 'articleId' => '\d+[^/]*', 'slug' => '.*'],
         methods: ['GET'],
+    )]
+    #[Route(
+        path: '/hilfe/hc/{mailboxId}/{articleId}/{slug?}',
+        name: 'frontend.kb.freescout.redirect.hilfe',
+        requirements: ['mailboxId' => '\d+', 'articleId' => '\d+[^/]*', 'slug' => '.*'],
+        methods: ['GET'],
+        priority: 100,
     )]
     public function redirectFreescoutArticle(string $mailboxId, string $articleId, ?string $slug, SalesChannelContext $context): Response
     {
@@ -57,5 +68,27 @@ class KbRedirectController extends StorefrontController
             'categorySlug' => $article->getCategory()->getSlug(),
             'articleSlug' => $article->getSlug(),
         ], Response::HTTP_MOVED_PERMANENTLY);
+    }
+
+    /**
+     * Leitet die FreeScout-KB-Startseite (/hc/{mailboxId} bzw. /hilfe/hc/{mailboxId})
+     * auf die Deskly-Hilfe-Übersicht um.
+     */
+    #[Route(
+        path: '/hc/{mailboxId}',
+        name: 'frontend.kb.freescout.home',
+        requirements: ['mailboxId' => '\d+'],
+        methods: ['GET'],
+    )]
+    #[Route(
+        path: '/hilfe/hc/{mailboxId}',
+        name: 'frontend.kb.freescout.home.hilfe',
+        requirements: ['mailboxId' => '\d+'],
+        methods: ['GET'],
+        priority: 100,
+    )]
+    public function redirectFreescoutHome(): Response
+    {
+        return $this->redirectToRoute('frontend.kb.overview', [], Response::HTTP_MOVED_PERMANENTLY);
     }
 }
