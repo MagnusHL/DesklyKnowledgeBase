@@ -80,6 +80,7 @@
             <argument type="service" id="deskly_kb_article.repository"/>
             <argument type="service" id="Deskly\KnowledgeBase\Service\ContentSanitizer"/>
             <argument type="service" id="logger"/>
+            <argument type="service" id="Shopware\Core\Framework\Util\HtmlSanitizer"/>
         </service>
 
         <service id="Deskly\KnowledgeBase\Service\ScheduledTask\FreeScoutSyncTask">

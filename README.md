@@ -31,6 +31,8 @@ Das zugehörige FreeScout-Modul liegt im Repo [freescout-hinzke-kb-export](https
 - **HTML-Sanitizer**: entfernt Inline-Styles, `class`-Müll und gefährliche URL-Schemata (`javascript:`, `data:`) – nur eine Whitelist an Tags/Attributen überlebt.
 - **Link-Rewrite**: interne FreeScout-KB-Links werden auf `/hilfe/…`-URLs umgeschrieben.
 - **`tags` = Kategorie-Slugs**: der Sync schreibt in jedes Artikel-`tags`-Feld die Slugs seiner Kategorien. Die FAQ-Blöcke filtern danach (siehe `docs/faq-block-mapping.md`).
+- **`shortText` = vollständiger erster Absatz**: die FAQ-Blöcke und das FAQPage-Schema zeigen ihn als Antwort, deshalb wird er nicht gekürzt. Die Antwort auf die Frage gehört also in den ersten Absatz des FreeScout-Artikels.
+- **Vergleich nach Shopware-Normalisierung**: `content` läuft vor dem Vergleich durch Shopwares HtmlSanitizer (der beim Speichern ohnehin greift). Sonst gelten Artikel mit `<br>`, `<hr>`, Bildern oder `target="_blank"` bei jedem Lauf als geändert.
 - **Safety-Fuse**: bricht ab, wenn mehr als 30 % der aktiven Artikel deaktiviert würden (z. B. weil FreeScout-Artikel auf Entwurf stehen). Mit `--force` übergehbar.
 
 ### Sync auslösen
@@ -44,6 +46,15 @@ bin/console deskly:kb:sync --force    # Safety-Fuse übergehen
 # Automatisch: Scheduled Task deskly_kb.freescout_sync (1800 s),
 # läuft nur bei Plugin-Config syncEnabled = true.
 ```
+
+### Waisen: Artikel, die direkt in Deskly angelegt wurden
+
+Der Sync fasst Artikel ohne `freescout_id` nicht an und listet sie im Report als Waisen. Sie fehlen dann in FreeScout und damit in der Redaktion. Nachziehen (zuletzt 2026-10-01, 34 Artikel):
+
+1. Nutzt ein FAQ-Block den alten Tag der Waisen, den Filter vorher auf alt + neu erweitern (`scripts/apply-faq-blocks.py --payloads=<datei>`), sonst läuft der Block leer.
+2. Waisen als Seed-Datei exportieren und im FreeScout-Container mit `seed-from-deskly.php --publish --write` anlegen (Repo `freescout-hinzke-kb-export`). **`--publish` ist Pflicht** – als Entwurf würde der nächste Sync die Artikel offline nehmen.
+3. `deskly:kb:sync --dry-run` muss 0 erstellt / 0 deaktiviert / 0 Waisen zeigen (Adoption per Slug bzw. Kategoriename), dann echter Lauf.
+4. FAQ-Filter auf den neuen Tag reduzieren.
 
 ### Plugin-Konfiguration (Einstellungen → Plugins → Deskly)
 

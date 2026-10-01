@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deskly\KnowledgeBase\Service;
 
+use Deskly\KnowledgeBase\Content\KbArticle\KbArticleDefinition;
 use Deskly\KnowledgeBase\Content\KbArticle\KbArticleEntity;
 use Deskly\KnowledgeBase\Content\KbCategory\KbCategoryEntity;
 use Deskly\KnowledgeBase\Util\SlugGenerator;
@@ -11,6 +12,7 @@ use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
 use Shopware\Core\Framework\DataAbstractionLayer\EntityRepository;
 use Shopware\Core\Framework\DataAbstractionLayer\Search\Criteria;
+use Shopware\Core\Framework\Util\HtmlSanitizer;
 use Shopware\Core\Framework\Uuid\Uuid;
 use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
@@ -35,7 +37,6 @@ class FreeScoutSyncService
     private const META_TITLE_SUFFIX = ' | Druckerei Hinzke Lübeck';
     private const META_TITLE_MAX_LENGTH = 60;
     private const META_DESCRIPTION_MAX_LENGTH = 155;
-    private const SHORT_TEXT_MAX_LENGTH = 300;
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
@@ -44,6 +45,7 @@ class FreeScoutSyncService
         private readonly EntityRepository $articleRepository,
         private readonly ContentSanitizer $sanitizer,
         private readonly LoggerInterface $logger,
+        private readonly HtmlSanitizer $htmlSanitizer,
     ) {
     }
 
@@ -469,7 +471,7 @@ class FreeScoutSyncService
 
         foreach ($planned as $freescoutId => &$plannedArticle) {
             $result = $this->sanitizer->rewriteLinks($plannedArticle['content'], $resolver);
-            $plannedArticle['content'] = $result['html'];
+            $plannedArticle['content'] = $this->normalizeForStorage($result['html']);
 
             foreach ($result['warnings'] as $warning) {
                 $report['warnings'][] = sprintf('Artikel %d ("%s"): %s', $freescoutId, $plannedArticle['title'], $warning);
@@ -698,6 +700,17 @@ class FreeScoutSyncService
 
     // ---- Text-Aufbereitung ----
 
+    /**
+     * Shopware normalisiert das AllowHtml-Feld `content` beim Schreiben (HTMLPurifier:
+     * `<br />` statt `<br>`, rel="noreferrer noopener" bei target="_blank", ...).
+     * Ohne dieselbe Normalisierung VOR dem Vergleich gilt ein solcher Artikel bei jedem
+     * Lauf als geändert – und updated_at (Sitemap-lastmod, dateModified) springt alle 30 Min.
+     */
+    private function normalizeForStorage(string $html): string
+    {
+        return $this->htmlSanitizer->sanitize($html, [], false, KbArticleDefinition::ENTITY_NAME . '.content');
+    }
+
     private function buildShortText(string $plainText, string $fallback): string
     {
         $paragraphs = preg_split('/\n\s*\n/', $plainText) ?: [];
@@ -716,7 +729,9 @@ class FreeScoutSyncService
             return $fallback;
         }
 
-        return $this->truncateAtWordBoundary($firstParagraph, self::SHORT_TEXT_MAX_LENGTH);
+        // Bewusst ungekürzt: die FAQ-Blöcke und das FAQPage-Schema zeigen shortText als
+        // vollständige Antwort – ein Schnitt mitten im Satz wäre dort sichtbar.
+        return $firstParagraph;
     }
 
     private function buildMetaTitle(string $title): string

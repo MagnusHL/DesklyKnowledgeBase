@@ -190,6 +190,11 @@ class ContentSanitizer
             return;
         }
 
+        // tel://+49… ist kein gültiger tel:-URI – Shopwares HTMLPurifier leert ihn sonst zu "tel:"
+        if ($tag === 'a' && preg_match('#^\s*tel:/+#i', $node->getAttribute('href')) === 1) {
+            $node->setAttribute('href', 'tel:' . preg_replace('#^\s*tel:/+#i', '', $node->getAttribute('href')));
+        }
+
         // img ohne (sicheres) src entfernen
         if ($tag === 'img' && !$node->hasAttribute('src')) {
             $node->parentNode?->removeChild($node);
