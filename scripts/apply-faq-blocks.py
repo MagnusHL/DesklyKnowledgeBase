@@ -12,7 +12,7 @@ gesetzt (Merge, keine anderen Slots angefasst). Auth via Shopware Admin API (~/.
 import json, os, ssl, sys, urllib.request, urllib.error
 
 SP = "/private/tmp/claude-501/-Users-magnus-hinzke-Documents-git-SW6-Freescout2Shopware/4cd37a38-f30c-423c-915f-6511a99c018b/scratchpad"
-PAYLOADS = f"{SP}/faq-update-payloads.json"
+PAYLOADS = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--payloads=")), f"{SP}/faq-update-payloads.json")
 WRITE = "--write" in sys.argv
 base = os.environ["SHOPWARE_API_URL"].rstrip("/")
 ctx = ssl.create_default_context()
