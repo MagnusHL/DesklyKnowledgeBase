@@ -16,6 +16,12 @@
         },
         "breadcrumb": {
             "help": "Help"
+        },
+        "meta": {
+            "overviewTitle": "Help & FAQ | Druckerei Hinzke Lübeck",
+            "overviewDescription": "Answers to frequently asked questions about print files, products, ordering, shipping and payment – the help center of Druckerei Hinzke in Lübeck.",
+            "categoryTitle": "%category% – Help",
+            "categoryDescription": "%category%: questions and answers from the help center of Druckerei Hinzke in Lübeck."
         }
     }
 }
