@@ -7,6 +7,7 @@ namespace Deskly\KnowledgeBase\Service;
 use Deskly\KnowledgeBase\Content\KbArticle\KbArticleDefinition;
 use Deskly\KnowledgeBase\Content\KbArticle\KbArticleEntity;
 use Deskly\KnowledgeBase\Content\KbCategory\KbCategoryEntity;
+use Deskly\KnowledgeBase\Util\MetaText;
 use Deskly\KnowledgeBase\Util\SlugGenerator;
 use Psr\Log\LoggerInterface;
 use Shopware\Core\Framework\Context;
@@ -34,9 +35,6 @@ class FreeScoutSyncService
     /** Abbruch, wenn mehr als dieser Anteil der aktuell aktiven Artikel deaktiviert würde */
     private const DEACTIVATION_FUSE_RATIO = 0.3;
 
-    private const META_TITLE_SUFFIX = ' | Druckerei Hinzke Lübeck';
-    private const META_TITLE_MAX_LENGTH = 60;
-    private const META_DESCRIPTION_MAX_LENGTH = 155;
 
     public function __construct(
         private readonly HttpClientInterface $httpClient,
@@ -546,16 +544,20 @@ class FreeScoutSyncService
                 $payload['shortText'] = $shortText;
             }
 
-            // Meta-Felder NUR setzen, wenn aktuell leer (manuell gepflegte Werte nicht überschreiben)
-            if (($existing->getMetaTitle() ?? '') === '') {
-                $payload['metaTitle'] = $this->buildMetaTitle($plannedArticle['title']);
+            // Meta-Felder folgen FreeScout, solange sie leer oder noch automatisch erzeugt sind.
+            // Manuell gepflegte Werte (weichen vom Automatik-Wert ab) bleiben unangetastet.
+            $metaTitle = $this->buildMetaTitle($plannedArticle['title']);
+            if ($existing->getMetaTitle() !== $metaTitle && $this->isAutoMetaTitle($existing)) {
+                $payload['metaTitle'] = $metaTitle;
             }
-            if (($existing->getMetaDescription() ?? '') === '') {
-                $metaDescription = $this->buildMetaDescription($plainText);
 
-                if ($metaDescription !== null) {
-                    $payload['metaDescription'] = $metaDescription;
-                }
+            $metaDescription = $this->buildMetaDescription($plainText);
+            if (
+                $metaDescription !== null
+                && $existing->getMetaDescription() !== $metaDescription
+                && $this->isAutoMetaDescription($existing)
+            ) {
+                $payload['metaDescription'] = $metaDescription;
             }
 
             if (\count($payload) > 1) {
@@ -736,17 +738,32 @@ class FreeScoutSyncService
 
     private function buildMetaTitle(string $title): string
     {
-        $full = $title . self::META_TITLE_SUFFIX;
+        return MetaText::title($title);
+    }
 
-        if (mb_strlen($full, 'UTF-8') <= self::META_TITLE_MAX_LENGTH) {
-            return $full;
-        }
+    /**
+     * Leer oder vom Sync aus dem bisherigen Titel erzeugt? Berücksichtigt auch die alte
+     * Regel, die lange Titel auf 60 Zeichen abgeschnitten hat.
+     */
+    private function isAutoMetaTitle(KbArticleEntity $existing): bool
+    {
+        $current = $existing->getMetaTitle() ?? '';
 
-        if (mb_strlen($title, 'UTF-8') <= self::META_TITLE_MAX_LENGTH) {
-            return $title;
-        }
+        return $current === ''
+            || $current === MetaText::title($existing->getTitle())
+            || $current === MetaText::truncate($existing->getTitle(), MetaText::TITLE_MAX_LENGTH);
+    }
 
-        return $this->truncateAtWordBoundary($title, self::META_TITLE_MAX_LENGTH);
+    /**
+     * Leer oder vom Sync aus dem bisherigen Inhalt erzeugt? Nur dann darf eine
+     * Textkorrektur in FreeScout die Meta-Description nachziehen.
+     */
+    private function isAutoMetaDescription(KbArticleEntity $existing): bool
+    {
+        $current = $existing->getMetaDescription() ?? '';
+
+        return $current === ''
+            || $current === $this->buildMetaDescription($this->sanitizer->toPlainText($existing->getContent()));
     }
 
     private function buildMetaDescription(string $plainText): ?string
@@ -757,23 +774,7 @@ class FreeScoutSyncService
             return null;
         }
 
-        return $this->truncateAtWordBoundary($flat, self::META_DESCRIPTION_MAX_LENGTH);
-    }
-
-    private function truncateAtWordBoundary(string $text, int $maxLength): string
-    {
-        if (mb_strlen($text, 'UTF-8') <= $maxLength) {
-            return $text;
-        }
-
-        $cut = mb_substr($text, 0, $maxLength, 'UTF-8');
-        $lastSpace = mb_strrpos($cut, ' ', 0, 'UTF-8');
-
-        if ($lastSpace !== false && $lastSpace > $maxLength * 0.5) {
-            $cut = mb_substr($cut, 0, $lastSpace, 'UTF-8');
-        }
-
-        return rtrim($cut, " \t-,.;:");
+        return MetaText::truncate($flat, MetaText::DESCRIPTION_MAX_LENGTH);
     }
 
     private function finalizeReport(array $report): array

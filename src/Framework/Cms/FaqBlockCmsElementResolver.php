@@ -6,6 +6,8 @@ namespace Deskly\KnowledgeBase\Framework\Cms;
 
 use Deskly\KnowledgeBase\Content\KbArticle\KbArticleCollection;
 use Deskly\KnowledgeBase\Content\KbArticle\KbArticleEntity;
+use Deskly\KnowledgeBase\Framework\Cache\KbCacheTags;
+use Shopware\Core\Framework\Adapter\Cache\CacheTagCollector;
 use Shopware\Core\Content\Cms\Aggregate\CmsSlot\CmsSlotEntity;
 use Shopware\Core\Content\Cms\DataResolver\CriteriaCollection;
 use Shopware\Core\Content\Cms\DataResolver\Element\AbstractCmsElementResolver;
@@ -23,6 +25,7 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
 
     public function __construct(
         private readonly EntityRepository $articleRepository,
+        private readonly CacheTagCollector $cacheTagCollector,
     ) {
     }
 
@@ -92,6 +95,12 @@ class FaqBlockCmsElementResolver extends AbstractCmsElementResolver
                 $articles = new KbArticleCollection(\array_slice($filtered->getElements(), 0, $maxItems, true));
             }
         }
+
+        // Seite mit FAQ-Block nach Artikel-Änderungen neu rendern (Tags: Listen + gezeigte Artikel)
+        $this->cacheTagCollector->addTag(
+            KbCacheTags::LISTING,
+            ...array_map(KbCacheTags::article(...), array_values($articles->getIds()))
+        );
 
         $slot->setData($articles);
     }

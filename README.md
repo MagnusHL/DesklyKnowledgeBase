@@ -27,12 +27,14 @@ Das zugehörige FreeScout-Modul liegt im Repo [freescout-hinzke-kb-export](https
 ### Sync-Verhalten
 
 - **Match** über `freescout_id` (Spalte in beiden Tabellen), Fallback-Adoption über Name (Kategorien) bzw. Slug (Artikel).
-- **Bestehende Slugs werden nie geändert** (SEO-Stabilität). Umbenennen einer Kategorie in FreeScout erzeugt daher eine neue Deskly-Kategorie; die alte bleibt als leere Karteileiche und muss manuell gelöscht werden.
+- **Bestehende Slugs werden nie geändert** (SEO-Stabilität). Kategorien werden über `freescout_id` zugeordnet: Umbenennen in FreeScout ändert nur den Namen, der Slug (und damit die URL) bleibt.
 - **HTML-Sanitizer**: entfernt Inline-Styles, `class`-Müll und gefährliche URL-Schemata (`javascript:`, `data:`) – nur eine Whitelist an Tags/Attributen überlebt.
 - **Link-Rewrite**: interne FreeScout-KB-Links werden auf `/hilfe/…`-URLs umgeschrieben.
 - **`tags` = Kategorie-Slugs**: der Sync schreibt in jedes Artikel-`tags`-Feld die Slugs seiner Kategorien. Die FAQ-Blöcke filtern danach (siehe `docs/faq-block-mapping.md`).
 - **`shortText` = vollständiger erster Absatz**: die FAQ-Blöcke und das FAQPage-Schema zeigen ihn als Antwort, deshalb wird er nicht gekürzt. Die Antwort auf die Frage gehört also in den ersten Absatz des FreeScout-Artikels.
 - **Vergleich nach Shopware-Normalisierung**: `content` läuft vor dem Vergleich durch Shopwares HtmlSanitizer (der beim Speichern ohnehin greift). Sonst gelten Artikel mit `<br>`, `<hr>`, Bildern oder `target="_blank"` bei jedem Lauf als geändert.
+- **Meta-Felder folgen FreeScout**: `metaTitle`/`metaDescription` erzeugt der Sync aus Titel bzw. Text, solange sie leer sind oder noch dem Automatik-Wert des bisherigen Stands entsprechen. Eine Textkorrektur in FreeScout zieht die Meta-Description also mit. Weicht ein Wert davon ab (in Deskly von Hand gepflegt, z. B. #33), bleibt er unangetastet. Lange Titel werden nicht abgeschnitten. Die Storefront setzt daraus `<title>`, Meta-Description, og:-Tags und Canonical; Fallback Titel/Name bzw. `shortText`/Kategorie-Beschreibung.
+- **HTTP-Cache**: Hilfe-Seiten tragen Cache-Tags (`deskly-kb-article-<id>`, `deskly-kb-category-<id>`, `deskly-kb-listing`). Jeder Schreibzugriff (Sync, Admin-API) invalidiert sofort nur die betroffenen Seiten plus Übersicht, Kategorie-Seiten und CMS-Seiten mit FAQ-Block – kein `cache:clear:http` nötig. Prüfen mit curl **ohne** Query-Parameter, sonst wird der Cache umgangen.
 - **Safety-Fuse**: bricht ab, wenn mehr als 30 % der aktiven Artikel deaktiviert würden (z. B. weil FreeScout-Artikel auf Entwurf stehen). Mit `--force` übergehbar.
 
 ### Sync auslösen
