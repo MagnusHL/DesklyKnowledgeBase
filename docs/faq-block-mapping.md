@@ -57,6 +57,17 @@ Entscheidungen Magnus (2026-07-18): gebundene Produkte → `bindungen`, übrige 
 | 41 | Webseiten (Kat) | `produkte` | Entscheidung |
 | 42 | Magnus Test (Kat, inaktiv) | – | ignorieren / aufräumen |
 
+## Nachtrag 2026-10-01: Umzug der 34 Waisen nach FreeScout
+
+Drei FAQ-Bereiche lagen nur in Deskly und filterten auf frei vergebene Tags. Nach dem Umzug
+(FreeScout-Kategorien 31–33) gelten auch hier die Kategorie-Slugs:
+
+| Seite | alter Tag-Filter | neuer Tag-Filter |
+|---|---|---|
+| 3D-Druck Hamburg (Landingpage) | `3d-hamburg` | `faq-3d-druck` |
+| UV-Druck (Landingpage) | `uv-druck` | `faq-uv-druck` |
+| Karten (Kat) | `karten` | `faq-karten` |
+
 ## Hinweise für die Anwendung
 
 - **maxItems = 15** überall. Kategorien > 15 Artikel (Bindungen, Bestellung & Versand,
